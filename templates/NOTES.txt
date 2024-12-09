@@ -1,0 +1,12 @@
+[RClone Chart]
+==============
+
+The rclone cronjob for S3 is deployed.
+
+* Namespace: {{ .Release.Namespace }}.
+* Generate your configuration file with `rclone` cli.
+  - `brew install rclone`.
+  - `rclone config --config ./rclone.conf`.
+     https://rclone.org/commands/rclone_config/
+* Set the config value in key `.Values.rclone.config`.
+* You can override the command using the value of `.Values.rclone.command`.

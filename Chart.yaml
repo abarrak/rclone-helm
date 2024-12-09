@@ -1,0 +1,21 @@
+apiVersion: v2
+name: rclone
+description: A Helm chart for to deploy rclone jobs in Kubernetes.
+
+type: application
+
+version: 1.0.0
+appVersion: "1.68"
+
+home: https://github.com/abarrak/rclone-helm
+icon: https://cdn.icon-icons.com/icons2/2699/PNG/512/rclone_logo_icon_168876.png
+keywords:
+- S3
+- Rclone
+- Rsync
+- Copy Utility
+- Buckets Replication
+- Kubernetes
+maintainers:
+- name: Abdullah Barrak
+  email: abdullah@abarrak.com
