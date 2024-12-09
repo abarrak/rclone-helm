@@ -1,5 +1,7 @@
 # Rclone - Helm Chart
-![Version: 1.0.0](https://img.shields.io/badge/Version-1.0.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
+![Version: 1.0.0](https://img.shields.io/badge/Version-1.0.0-informational?style=flat-square)
+![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
+[![CI (Lint)](https://github.com/abarrak/rclone-helm/actions/workflows/lint.yaml/badge.svg)](https://github.com/abarrak/rclone-helm/actions/workflows/lint.yaml)
 
 This repository presents rclone helm chart to deploy in kubernetes.
 
