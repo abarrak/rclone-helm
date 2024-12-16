@@ -21,6 +21,6 @@ entries:
     name: rclone
     type: application
     urls:
-    - https://abarrak.github.io/kubesec-helm/charts/rclone-1.0.0.tgz
+    - https://abarrak.github.io/rclone-helm/charts/rclone-1.0.0.tgz
     version: 1.0.0
 generated: "2024-12-09T15:53:02.626406+03:00"
