@@ -26,21 +26,24 @@ helm install rclone-jobs rclone/rclone --version 1.0.0
 
 You can customize both the job and rclone configuration in `values.yaml` file.
 
+## Values
+
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | affinity | object | `{}` |  |
 | backoffLimit | int | `3` |  |
 | concurrencyPolicy | string | `"Forbid"` |  |
-| destExternalSecret | string | `"destination-s3-rclone-creds-file"` |  |
-| envVars[0].valueFrom.secretKeyRef.key | string | `"config"` |  |
-| envVars[0].valueFrom.secretKeyRef.name | string | `"rclone-dest-sync-config"` |  |
-| envVars[1].name | string | `"SOURCE_BUCKET"` |  |
+| enableExternalSecrets | bool | `false` | |
+| enablePlainSecrets | bool | `false` | |
+| envVars[0].name | string | `"RCLONE_CONFIG_FILE"` |  |
+| envVars[0].value | string | `"/opt/rclone.conf"` |  |
+| envVars[1].name | string | `"REMOTE_A_NAME"` |  |
 | envVars[1].value | string | `""` |  |
-| envVars[2].name | string | `"DEST_BUCKET"` |  |
+| envVars[2].name | string | `"REMOTE_B_NAME"` |  |
 | envVars[2].value | string | `""` |  |
-| envVars[3].name | string | `"RCLONE_SOURCE_REMOTE_NAME"` |  |
+| envVars[3].name | string | `"REMOTE_A_BUCKET"` |  |
 | envVars[3].value | string | `""` |  |
-| envVars[4].name | string | `"RCLONE_DEST_REMOTE_NAME"` |  |
+| envVars[4].name | string | `"REMOTE_B_BUCKET"` |  |
 | envVars[4].value | string | `""` |  |
 | failedJobsHistoryLimit | int | `5` |  |
 | fullnameOverride | string | `""` |  |
@@ -53,9 +56,11 @@ You can customize both the job and rclone configuration in `values.yaml` file.
 | podAnnotations | object | `{}` |  |
 | podLabels | object | `{}` |  |
 | podSecurityContext | object | `{}` |  |
-| rclone.command | string | `"rclone copy $RCLONE_SOURCE_REMOTE_NAME:\"$SOURCE_BUCKET/\" $RCLONE_DEST_REMOTE_NAME:\"$DEST_BUCKET/\" --config /opt/rclone.conf --log-level=DEBUG --retries=1 --fast-list --progress --ignore-checksum --metadata --metadata-include \"tier=STANDARD\"\n"` |  |
+| rclone.command | string | `"rclone copy $REMOTE_A_NAME:\"$REMOTE_A_BUCKET/\" $REMOTE_B_NAME:\"$REMOTE_A_BUCKET/\" --config $RCLONE_CONFIG_FILE --log-level=DEBUG --retries=1 --fast-list --progress --ignore-checksum --metadata --metadata-include \"tier=STANDARD\"\n"` |  |
 | rclone.config | string | `""` |  |
-| resources.limits.cpu | string | `"700m"` |  |
+| remoteBackendsExternalSecrets | list | `[]` |  |
+| remoteBackendsSecrets | list | `[]` |  |
+| resources.limits.cpu | string | `"500m"` |  |
 | resources.limits.memory | string | `"1024Mi"` |  |
 | resources.requests.cpu | string | `"100m"` |  |
 | resources.requests.memory | string | `"256Mi"` |  |
@@ -66,7 +71,6 @@ You can customize both the job and rclone configuration in `values.yaml` file.
 | serviceAccount.automount | bool | `true` |  |
 | serviceAccount.create | bool | `true` |  |
 | serviceAccount.name | string | `""` |  |
-| sourceExternalSecret | string | `"source-s3-rclone-creds-file"` |  |
 | startingDeadlineSeconds | string | `""` |  |
 | successfulJobsHistoryLimit | int | `5` |  |
 | suspend | bool | `false` |  |
@@ -77,22 +81,9 @@ You can customize both the job and rclone configuration in `values.yaml` file.
 | volumeMounts[0].name | string | `"rclone-conf"` |  |
 | volumeMounts[0].readOnly | bool | `false` |  |
 | volumeMounts[0].subPath | string | `"rclone.conf"` |  |
-| volumeMounts[1].mountPath | string | `"/opt/source_provider_s3.creds"` |  |
-| volumeMounts[1].name | string | `"source-creds"` |  |
-| volumeMounts[1].readOnly | bool | `false` |  |
-| volumeMounts[1].subPath | string | `"source_provider_s3.creds"` |  |
-| volumeMounts[2].mountPath | string | `"/opt/dest_provider_s3.creds"` |  |
-| volumeMounts[2].name | string | `"destination-creds"` |  |
-| volumeMounts[2].readOnly | bool | `false` |  |
-| volumeMounts[2].subPath | string | `"dest_provider_s3.creds"` |  |
 | volumes[0].configMap.name | string | `"rclone"` |  |
 | volumes[0].name | string | `"rclone-conf"` |  |
-| volumes[1].name | string | `"source-creds"` |  |
-| volumes[1].secret.secretName | string | `"rclone-source-sync-config"` |  |
-| volumes[2].name | string | `"destination-creds"` |  |
-| volumes[2].secret.secretName | string | `"rclone-dest-sync-config"` |  |
 ----------------------------------------------
-
 
 ## Support
 
