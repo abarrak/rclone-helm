@@ -60,10 +60,7 @@ You can customize both the job and rclone configuration in `values.yaml` file.
 | rclone.config | string | `""` |  |
 | remoteBackendsExternalSecrets | list | `[]` |  |
 | remoteBackendsSecrets | list | `[]` |  |
-| resources.limits.cpu | string | `"500m"` |  |
-| resources.limits.memory | string | `"1024Mi"` |  |
-| resources.requests.cpu | string | `"100m"` |  |
-| resources.requests.memory | string | `"256Mi"` |  |
+| resources | object | `{}` |  |
 | restartPolicy | string | `"OnFailure"` |  |
 | schedule | string | `"0 10 * * *"` |  |
 | securityContext | object | `{}` |  |
