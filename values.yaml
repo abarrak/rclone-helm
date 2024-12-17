@@ -34,66 +34,81 @@ fullnameOverride: ""
 rclone:
   config: ""
   command: |
-    rclone copy $RCLONE_SOURCE_REMOTE_NAME:"$SOURCE_BUCKET/" $RCLONE_DEST_REMOTE_NAME:"$DEST_BUCKET/" --config /opt/rclone.conf --log-level=DEBUG --retries=1 --fast-list --progress --ignore-checksum --metadata --metadata-include "tier=STANDARD"
+    rclone copy $REMOTE_A_NAME:"$REMOTE_A_BUCKET/" $REMOTE_B_NAME:"$REMOTE_A_BUCKET/" --config $RCLONE_CONFIG_FILE --log-level=DEBUG --retries=1 --fast-list --progress --ignore-checksum --metadata --metadata-include "tier=STANDARD"
 
+##
+# Optional. You can specify your rclone command's arguments as environment
+# variables for flexibility.
+# @note: the remotes names must be the same as in the rclone config.
+#
 envVars:
   - name: RCLONE_CONFIG_FILE
-    valueFrom:
-      secretKeyRef:
-        name: rclone-dest-sync-config
-        key: config
-  - name: SOURCE_BUCKET
+    value: /opt/rclone.conf
+  - name: REMOTE_A_NAME
     value: ""
-  - name: DEST_BUCKET
+  - name: REMOTE_B_NAME
     value: ""
-  - name: RCLONE_SOURCE_REMOTE_NAME
+  - name: REMOTE_A_BUCKET
     value: ""
-  - name: RCLONE_DEST_REMOTE_NAME
+  - name: REMOTE_B_BUCKET
     value: ""
 
 ##
 # The secret names from provider (AWS SecretManager, OCI Vault, etc.).
 #
 # Thi is used to populate the ExternalSecret resources holding
-# the rclone remotes' credentials for source and destination.
+# the rclone remotes' credentials for remote backends (S3),
+# so credentails be mounted as files in the conainter.
 #
 # This is needed where the implicit node/workload iam role usage is not feasible.
 #
-sourceExternalSecret: source-s3-rclone-creds-file
-destExternalSecret: destination-s3-rclone-creds-file
+# @example: including s3 cred entials for 2 remotes.
+# ---------
+# enableExternalSecrets: true
+# remoteBackendsExternalSecrets:
+#   - source-s3-creds
+#   - dest-s3-creds
+#
+enableExternalSecrets: false
+remoteBackendsExternalSecrets: []
 
+##
+#
+# If the external secret aren't used, the credentials can be set in plain secret
+# resources then secret names passed to mount credentails as files in the conainter,
+# and the secret content of s3 file creds as base64 string
+#
+# @example: including s3 cred entials for 2 remotes.
+# ---------
+# enablePlainSecrets: true
+# remoteBackendsSecrets:
+#   - name: bucket-a-s3-creds-file
+#     data: W2RlZmF1bHRdCmF3c19hY2Nlc3Nfa2V5X2lkID0gWFhYWAphd3Nfc2VjcmV0X2FjY2Vzc19rZXkgPSBYWFhZWVkK
+#   - name: bucket-b-s3-creds-file
+#     data: W2RlZmF1bHRdCmF3c19hY2Nlc3Nfa2V5X2lkID0gWFhYWAphd3Nfc2VjcmV0X2FjY2Vzc19rZXkgPSBYWFhZWVkK
+#
+enablePlainSecrets: false
+remoteBackendsSecrets: []
+
+#
+# Resource utlization for the pod.
 resources:
   requests:
-    memory: "256Mi"
     cpu: "100m"
+    memory: "256Mi"
   limits:
+    cpu: "500m"
     memory: "1024Mi"
-    cpu: "700m"
 
 volumes:
   - name: rclone-conf
     configMap:
       name: rclone
-  - name: source-creds
-    secret:
-      secretName: rclone-source-sync-config
-  - name: destination-creds
-    secret:
-      secretName: rclone-dest-sync-config
 
 volumeMounts:
   - name: rclone-conf
     mountPath: /opt/rclone.conf
     subPath: rclone.conf
-    readOnly: false
-  - name: source-creds
-    mountPath: /opt/source_provider_s3.creds
-    subPath: source_provider_s3.creds
-    readOnly: false
-
-  - name: destination-creds
-    mountPath: /opt/dest_provider_s3.creds
-    subPath: dest_provider_s3.creds
     readOnly: false
 
 serviceAccount:

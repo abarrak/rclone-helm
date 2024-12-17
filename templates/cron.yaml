@@ -66,14 +66,42 @@ spec:
                 periodSeconds: 5
               resources:
                 {{- toYaml .Values.resources | nindent 16 }}
-              {{- with .Values.volumeMounts }}
               volumeMounts:
+              {{- with .Values.volumeMounts }}
                 {{- toYaml . | nindent 16 }}
               {{- end }}
-          {{- with .Values.volumes }}
+              {{ if .Values.enableExternalSecrets }}
+              {{- range $_, $v := .Values.remoteBackendsExternalSecrets }}
+                - name: {{ $v }}
+                  mountPath: /opt/{{ $v | replace " " "_" | replace "-" "_" }}_provider.creds
+                  subPath: {{ $v | replace " " "_" | replace "-" "_" }}_provider.creds
+                  readOnly: false
+              {{- end }}
+              {{ else if .Values.enablePlainSecrets }}
+              {{- range $_, $v := .Values.remoteBackendsSecrets }}
+                - name: $v.name
+                  mountPath: "/opt/{{ $v.name | replace " " "_" | replace "-" "_" }}_provider.creds"
+                  subPath: {{ $v.name | replace " " "_" | replace "-" "_" }}_provider.creds
+                  readOnly: false
+              {{- end }}
+              {{ end }}
           volumes:
-            {{- toYaml . | nindent 12 }}
+            {{- with .Values.volumes }}
+              {{- toYaml . | nindent 12 }}
+            {{- end }}
+          {{ if .Values.enableExternalSecrets }}
+          {{- range $_, $v := .Values.remoteBackendsExternalSecrets }}
+            - name: {{ $v }}_creds
+              secret:
+                secretName: {{ $v }}_provider_s3_creds
           {{- end }}
+          {{ else if .Values.enablePlainSecrets }}
+          {{- range $_, $v := .Values.remoteBackendsSecrets }}
+            - name: {{ $v.name }}_creds
+              secret:
+                secretName: "{{ include "rclone.name" $ }}-remote-{{ $v.name }}-secret"
+          {{- end }}
+          {{ end }}
           {{- with .Values.nodeSelector }}
           nodeSelector:
             {{- toYaml . | nindent 12 }}
