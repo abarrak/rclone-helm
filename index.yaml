@@ -3,7 +3,29 @@ entries:
   rclone:
   - apiVersion: v2
     appVersion: "1.68"
-    created: "2024-12-09T15:53:02.627828+03:00"
+    created: "2024-12-17T17:11:47.886925+03:00"
+    description: A Helm chart for to deploy rclone jobs in Kubernetes.
+    digest: 7a205772b0560cd1c695d740522714ce7015bc2051ae3d88f1f7d50b7ac3bec0
+    home: https://github.com/abarrak/rclone-helm
+    icon: https://cdn.icon-icons.com/icons2/2699/PNG/512/rclone_logo_icon_168876.png
+    keywords:
+    - S3
+    - Rclone
+    - Rsync
+    - Copy Utility
+    - Buckets Replication
+    - Kubernetes
+    maintainers:
+    - email: abdullah@abarrak.com
+      name: Abdullah Barrak
+    name: rclone
+    type: application
+    urls:
+    - https://abarrak.github.io/rclone-helm/charts/rclone-2.0.0.tgz
+    version: 2.0.0
+  - apiVersion: v2
+    appVersion: "1.68"
+    created: "2024-12-17T17:11:47.886096+03:00"
     description: A Helm chart for to deploy rclone jobs in Kubernetes.
     digest: 86fa4e722b05492bde6f052bd332f7760a3894bb25143715b3e7c458516a5740
     home: https://github.com/abarrak/rclone-helm
@@ -23,4 +45,4 @@ entries:
     urls:
     - https://abarrak.github.io/rclone-helm/charts/rclone-1.0.0.tgz
     version: 1.0.0
-generated: "2024-12-09T15:53:02.626406+03:00"
+generated: "2024-12-17T17:11:47.885376+03:00"
