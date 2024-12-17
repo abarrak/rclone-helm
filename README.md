@@ -1,5 +1,5 @@
 # Rclone - Helm Chart
-![Version: 1.0.0](https://img.shields.io/badge/Version-1.0.0-informational?style=flat-square)
+![Version: 2.0.0](https://img.shields.io/badge/Version-2.0.0-informational?style=flat-square)
 ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
 [![CI (Lint)](https://github.com/abarrak/rclone-helm/actions/workflows/lint.yaml/badge.svg)](https://github.com/abarrak/rclone-helm/actions/workflows/lint.yaml)
 
@@ -19,7 +19,7 @@ This repository presents rclone helm chart to deploy in kubernetes.
 
 ```bash
 helm repo add rclone https://abarrak.github.io/rclone-helm
-helm install rclone-jobs rclone/rclone --version 1.0.0
+helm install rclone-jobs rclone/rclone --version 2.0.0
 ```
 
 ## Chart Settings
@@ -60,10 +60,7 @@ You can customize both the job and rclone configuration in `values.yaml` file.
 | rclone.config | string | `""` |  |
 | remoteBackendsExternalSecrets | list | `[]` |  |
 | remoteBackendsSecrets | list | `[]` |  |
-| resources.limits.cpu | string | `"500m"` |  |
-| resources.limits.memory | string | `"1024Mi"` |  |
-| resources.requests.cpu | string | `"100m"` |  |
-| resources.requests.memory | string | `"256Mi"` |  |
+| resources | object | `{}` |  |
 | restartPolicy | string | `"OnFailure"` |  |
 | schedule | string | `"0 10 * * *"` |  |
 | securityContext | object | `{}` |  |
