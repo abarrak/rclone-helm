@@ -32,7 +32,6 @@ You can customize both the job and rclone configuration in `values.yaml` file.
 | backoffLimit | int | `3` |  |
 | concurrencyPolicy | string | `"Forbid"` |  |
 | destExternalSecret | string | `"destination-s3-rclone-creds-file"` |  |
-| envVars[0].name | string | `"RCLONE_CONFIG_FILE"` |  |
 | envVars[0].valueFrom.secretKeyRef.key | string | `"config"` |  |
 | envVars[0].valueFrom.secretKeyRef.name | string | `"rclone-dest-sync-config"` |  |
 | envVars[1].name | string | `"SOURCE_BUCKET"` |  |
