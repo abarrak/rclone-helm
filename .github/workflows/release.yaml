@@ -31,7 +31,9 @@ jobs:
           git config user.email ci@abarrak.com
 
       - name: Merge chart's latest changes.
-        run: git merge main --rebase
+        run: |
+          git fetch origin main
+          git merge main
 
       - name: Build and publish.
         run: |
