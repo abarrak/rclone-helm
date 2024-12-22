@@ -33,7 +33,7 @@ jobs:
       - name: Merge chart's latest changes.
         run: |
           git fetch origin main
-          git merge main
+          git merge origin/main
 
       - name: Build and publish.
         run: |
