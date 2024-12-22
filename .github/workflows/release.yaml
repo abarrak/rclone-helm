@@ -1,0 +1,42 @@
+name: "CI: Release"
+
+on:
+  push:
+    tags: ['*']
+
+defaults:
+  run:
+    working-directory: rclone_helm
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the codebase.
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          fetch-depth: 0
+          path: rclone_helm
+
+      - name: Install Helm
+        uses: azure/setup-helm@v4
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Configure git.
+        run: |
+          git config user.name "CI Bot"
+          git config user.email ci@abarrak.com
+
+      - name: Merge chart's latest changes.
+        run: git merge main --rebase
+
+      - name: Build and publish.
+        run: |
+          helm package ./ -d ./charts
+          helm repo index --url https://abarrak.github.io/rclone-helm ./
+          LATEST_TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
+          git commit -m "[auto] publish new release - chart ${LATEST_TAG}"
+          git push origin gh-pages
