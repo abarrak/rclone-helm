@@ -2,7 +2,9 @@ name: "CI: Release"
 
 on:
   push:
-    tags: ['*']
+    branches: [main]
+  pull_request:
+    branches: [main]
 
 defaults:
   run:
@@ -22,8 +24,6 @@ jobs:
 
       - name: Install Helm
         uses: azure/setup-helm@v4
-        env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 
       - name: Configure git.
         run: |

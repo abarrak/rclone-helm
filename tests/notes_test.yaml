@@ -1,0 +1,23 @@
+suite: NOTES.txt output
+templates:
+  - NOTES.txt
+chart:
+  appVersion: 1.68
+tests:
+  - it: should display information about setting the rclone.conf file
+    asserts:
+      - equalRaw:
+          value: |
+            [RClone Chart]
+            ==============
+
+            The rclone cronjob for S3 is deployed.
+
+            * Namespace: NAMESPACE.
+            * Generate your configuration file with `rclone` cli.
+              - `brew install rclone`.
+              - `rclone config --config ./rclone.conf`.
+                 https://rclone.org/commands/rclone_config/
+            * Set the config value in key `.Values.rclone.config`.
+            * You can override the command using the value of `.Values.rclone.command`.
+

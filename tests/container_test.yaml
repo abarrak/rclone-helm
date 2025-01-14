@@ -1,0 +1,128 @@
+suite: Main Container configuration
+templates:
+  - cron.yaml
+chart:
+  appVersion: 1.68
+capabilities:
+  majorVersion: 1
+  minorVersion: 16
+tests:
+  - it: should have the default Docker image when no value is specified
+    asserts:
+      - equal:
+          path: spec.jobTemplate.spec.template.spec.containers[0].image
+          value: rclone/rclone:1.68
+  - it: should change image when image.tag value is specified
+    set:
+      image:
+        tag: latest
+    asserts:
+      - equal:
+          path: spec.jobTemplate.spec.template.spec.containers[0].image
+          value: rclone/rclone:latest
+  - it: should change image when image.repository value is specified
+    set:
+      image:
+        repository: repo.lan/rclone
+    asserts:
+      - equal:
+          path: spec.jobTemplate.spec.template.spec.containers[0].image
+          value: repo.lan/rclone:1.68
+
+  - it: should have no resource limit by default
+    asserts:
+      - isNullOrEmpty:
+          path: spec.jobTemplate.spec.template.spec.containers[0].resources
+  - it: should have a custom resource limit when specified
+    set:
+      resources:
+        requests:
+          cpu: "100m"
+          memory: "50Mi"
+        limits:
+          cpu: "300m"
+          memory: "150Mi"
+    asserts:
+      - equal:
+          path: spec.jobTemplate.spec.template.spec.containers[0].resources.requests.cpu
+          value: "100m"
+      - equal:
+          path: spec.jobTemplate.spec.template.spec.containers[0].resources.requests.memory
+          value: "50Mi"
+      - equal:
+          path: spec.jobTemplate.spec.template.spec.containers[0].resources.limits.cpu
+          value: "300m"
+      - equal:
+          path: spec.jobTemplate.spec.template.spec.containers[0].resources.limits.memory
+          value: "150Mi"
+  - it: should have some data volumeMount subPath by default
+    asserts:
+      - isNotNull:
+          path: spec.jobTemplate.spec.template.spec.containers[0].volumeMounts[0].subPath
+  - it: should have data volumeMount subPath when specified in config
+    asserts:
+      - equal:
+          path: spec.jobTemplate.spec.template.spec.containers[0].volumeMounts[0].name
+          value: rclone-conf
+      - equal:
+          path: spec.jobTemplate.spec.template.spec.containers[0].volumeMounts[0].mountPath
+          value: /opt/rclone.conf
+      - equal:
+          path: spec.jobTemplate.spec.template.spec.containers[0].volumeMounts[0].subPath
+          value: "rclone.conf"
+  - it: should have templated config map volume
+    set:
+      volumes:
+        - name: provider_conf
+          configMap:
+            name: provider_conf_1
+      volumeMounts:
+        - name: provider_conf_1
+          mountPath: /opt/provider_conf_1
+    asserts:
+      - equal:
+          path: spec.jobTemplate.spec.template.spec.containers[0].volumeMounts[0].name
+          value: provider_conf_1
+      - equal:
+          path: spec.jobTemplate.spec.template.spec.volumes[0].name
+          value: provider_conf
+      - equal:
+          path: spec.jobTemplate.spec.template.spec.volumes[0].configMap.name
+          value: provider_conf_1
+
+  - it: should have templated secret volume
+    set:
+      volumes:
+        - name: provider_creds
+          secret:
+            secretName: provider_creds_secret
+    asserts:
+      - equal:
+          path: spec.jobTemplate.spec.template.spec.volumes[0].name
+          value: provider_creds
+      - equal:
+          path: spec.jobTemplate.spec.template.spec.volumes[0].secret.secretName
+          value: provider_creds_secret
+
+  - it: should set a podAntiaffinity
+    set:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - whatever
+            topologyKey: kubernetes.io/hostname
+    asserts:
+      - equal:
+          path: spec.jobTemplate.spec.template.spec.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[0].topologyKey
+          value: kubernetes.io/hostname
+      - equal:
+          path: spec.jobTemplate.spec.template.spec.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[0].labelSelector.matchExpressions[0].key
+          value: app
+      - equal:
+          path: spec.jobTemplate.spec.template.spec.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[0].labelSelector.matchExpressions[0].values[0]
+          value: whatever

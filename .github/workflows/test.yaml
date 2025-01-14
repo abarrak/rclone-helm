@@ -1,0 +1,32 @@
+name: "CI: Tests"
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+defaults:
+  run:
+    working-directory: rclone_helm
+
+jobs:
+  tests:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the codebase.
+        uses: actions/checkout@v4
+        with:
+          path: rclone_helm
+
+      - name: Install Helm.
+        uses: azure/setup-helm@v4
+
+      - name: Install Helm Unit tests plugin
+        run: |
+          echo $PATH
+          helm plugin install https://github.com/helm-unittest/helm-unittest >/dev/null 2>/dev/null
+
+      - name: Run unit tests.
+        run: helm unittest --color ./
