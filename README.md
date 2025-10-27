@@ -85,14 +85,6 @@ You can customize both the job and rclone configuration in `values.yaml` file.
 | volumes[0].name | string | `"rclone-conf"` |  |
 ----------------------------------------------
 
-## Support
-
-In case this deployment option was helpful for you, and you liked it.
-
-<a href="https://www.buymeacoffee.com/abarrak" target="_blank">
-  <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 40px !important;width: 150px !important;" >
-</a>
-
 ## License
 
 MIT.
