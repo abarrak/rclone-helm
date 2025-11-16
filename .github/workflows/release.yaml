@@ -37,7 +37,8 @@ jobs:
 
       - name: Build and publish.
         run: |
-          helm package ./ -d ./charts
+          helm package ./ -d ./new-chart
+          mv ./new-chart/*tgz ./charts/
           helm repo index --url https://abarrak.github.io/rclone-helm ./
           LATEST_TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
           git add .
