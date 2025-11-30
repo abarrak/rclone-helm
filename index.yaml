@@ -3,9 +3,9 @@ entries:
   rclone:
   - apiVersion: v2
     appVersion: "1.68"
-    created: "2025-11-16T07:56:09.602163357Z"
+    created: "2025-11-30T11:40:15.812625973Z"
     description: A Helm chart for to deploy rclone jobs in Kubernetes.
-    digest: 0a1ebe93f0f1574e4366c7cc6ee80f289abb264b8a3aa82370565c430d4cf5bf
+    digest: f9ac6383ebb6531a1139894be484a0bd959e01a2d020d42235c9ab0305d14949
     home: https://github.com/abarrak/rclone-helm
     icon: https://cdn.icon-icons.com/icons2/2699/PNG/512/rclone_logo_icon_168876.png
     keywords:
@@ -25,7 +25,7 @@ entries:
     version: 2.1.0
   - apiVersion: v2
     appVersion: "1.68"
-    created: "2025-11-16T07:56:09.600960483Z"
+    created: "2025-11-30T11:40:15.812075643Z"
     description: A Helm chart for to deploy rclone jobs in Kubernetes.
     digest: e037987ab26544f70c5bcf9c98a009dc5133d7a97d08fe81ff7de7be45584947
     home: https://github.com/abarrak/rclone-helm
@@ -47,7 +47,7 @@ entries:
     version: 2.0.1
   - apiVersion: v2
     appVersion: "1.68"
-    created: "2025-11-16T07:56:09.597999409Z"
+    created: "2025-11-30T11:40:15.808924814Z"
     description: A Helm chart for to deploy rclone jobs in Kubernetes.
     digest: 7a205772b0560cd1c695d740522714ce7015bc2051ae3d88f1f7d50b7ac3bec0
     home: https://github.com/abarrak/rclone-helm
@@ -69,7 +69,7 @@ entries:
     version: 2.0.0
   - apiVersion: v2
     appVersion: "1.68"
-    created: "2025-11-16T07:56:09.597068065Z"
+    created: "2025-11-30T11:40:15.807935763Z"
     description: A Helm chart for to deploy rclone jobs in Kubernetes.
     digest: 86fa4e722b05492bde6f052bd332f7760a3894bb25143715b3e7c458516a5740
     home: https://github.com/abarrak/rclone-helm
@@ -89,4 +89,4 @@ entries:
     urls:
     - https://abarrak.github.io/rclone-helm/charts/rclone-1.0.0.tgz
     version: 1.0.0
-generated: "2025-11-16T07:56:09.596380848Z"
+generated: "2025-11-30T11:40:15.807237135Z"
