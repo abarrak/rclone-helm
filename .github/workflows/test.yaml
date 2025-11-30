@@ -29,4 +29,4 @@ jobs:
           helm plugin install https://github.com/helm-unittest/helm-unittest --verify=false >/dev/null 2>/dev/null
 
       - name: Run unit tests.
-        run: helm unittest --color auto ./
+        run: helm unittest ./
