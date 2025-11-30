@@ -9,8 +9,8 @@ spec:
   {{- if hasKey .Values "suspend" }}
   suspend: {{ .Values.suspend }}
   {{- end }}
-  {{- if .Values.timezone }}
-  timeZone: {{ .Values.timezone | quote }}
+  {{- if .Values.timeZone }}
+  timeZone: {{ .Values.timeZone | quote }}
   {{- end }}
   concurrencyPolicy: {{ .Values.concurrencyPolicy }}
   failedJobsHistoryLimit: {{ .Values.failedJobsHistoryLimit }}
